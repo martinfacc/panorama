@@ -36,9 +36,9 @@ export default function EnableSensorsButton() {
         transform: 'translate(-50%, -50%)'
       }}
     >
-      <Button variant="contained" onClick={requestPermission}>
+      <Button size="small" variant="contained" onClick={requestPermission}>
         <Iconify icon="game-icons:gyroscope" sx={{ mr: 1 }} />
-        Habilitar Sensores
+        Enable Sensors
       </Button>
     </Box>
   )

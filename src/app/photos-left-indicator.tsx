@@ -32,7 +32,7 @@ export default function PhotosLeftIndicator() {
             textShadow: '0 0 3px rgba(0,0,0,0.8)'
           }}
         >
-          {photosLeft} de {spheres.length}
+          {photosLeft} of {spheres.length}
         </Typography>
       </Stack>
     </Box>

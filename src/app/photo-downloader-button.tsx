@@ -58,9 +58,14 @@ export default function PhotoDownloaderButton() {
         transform: 'translateX(-50%)'
       }}
     >
-      <Button variant="contained" onClick={downloadPhotos} disabled={photoFiles.length === 0}>
+      <Button
+        size="small"
+        variant="contained"
+        onClick={downloadPhotos}
+        disabled={photoFiles.length === 0}
+      >
         <Iconify icon="material-symbols:download" sx={{ mr: 1 }} />
-        Descargar Fotos
+        Download Photos
       </Button>
     </Box>
   )
