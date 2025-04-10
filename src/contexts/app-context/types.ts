@@ -13,8 +13,10 @@ export type TSuperFile = File & {
   alpha: number
   beta: number
   gamma: number
-  theta: number
-  phi: number
+  cameraTheta: number
+  cameraPhi: number
+  spheraTheta: number
+  spheraPhi: number
 }
 
 export type TCameraResolution = {

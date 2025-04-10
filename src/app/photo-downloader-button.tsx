@@ -16,8 +16,10 @@ export default function PhotoDownloaderButton() {
       alpha: number
       beta: number
       gamma: number
-      theta: number
-      phi: number
+      cameraTheta: number
+      cameraPhi: number
+      spheraTheta: number
+      spheraPhi: number
     }> = []
 
     photoFiles.forEach((file) => {
@@ -26,8 +28,10 @@ export default function PhotoDownloaderButton() {
         alpha: file.alpha,
         beta: file.beta,
         gamma: file.gamma,
-        theta: file.theta,
-        phi: file.phi
+        cameraTheta: file.cameraTheta,
+        cameraPhi: file.cameraPhi,
+        spheraTheta: file.spheraTheta,
+        spheraPhi: file.spheraPhi
       })
       zip.file(`${file.name}`, file)
     })

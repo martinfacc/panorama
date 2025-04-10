@@ -52,7 +52,10 @@ export default function AutoCaptureNotifier() {
             } else {
               const elapsed = performance.now() - (overStartTimeRef.current ?? 0)
               if (elapsed >= 1000) {
-                takePhoto(sphereId)
+                const cameraDirection = new THREE.Vector3()
+                currentCamera.getWorldDirection(cameraDirection)
+                cameraDirection.normalize()
+                takePhoto(sphereId, cameraDirection)
                 overStartTimeRef.current = null
                 lastIntersectedIdRef.current = null
                 setOverSphere(false)
@@ -70,7 +73,7 @@ export default function AutoCaptureNotifier() {
         requestAnimationFrame(checkIntersection)
       }
 
-      const takePhoto = (sphereId: string) => {
+      const takePhoto = (sphereId: string, cameraVector: THREE.Vector3) => {
         const renderer = rendererRef.current
         if (!renderer) return
 
@@ -100,13 +103,22 @@ export default function AutoCaptureNotifier() {
                 const file = new File([blob], `${filename}.png`, {
                   type: 'image/png'
                 }) as TSuperFile
+
+                const theta = Math.atan2(cameraVector.z, cameraVector.x)
+                const phi = Math.asin(cameraVector.y)
+                const thetaDeg = (theta * 180) / Math.PI
+                const phiDeg = (phi * 180) / Math.PI
+
+                file.id = sphere.userData.id
+                file.cameraTheta = thetaDeg
+                file.cameraPhi = phiDeg
+                file.spheraTheta = sphere.userData.theta
+                file.spheraPhi = sphere.userData.phi
+
                 setCameraAngle((prev) => {
-                  file.id = sphere.userData.id
                   file.alpha = prev.alpha
                   file.beta = prev.beta
                   file.gamma = prev.gamma
-                  file.theta = sphere.userData.theta
-                  file.phi = sphere.userData.phi
                   return prev
                 })
                 setPhotoFiles((prevFiles) => [...prevFiles, file])
