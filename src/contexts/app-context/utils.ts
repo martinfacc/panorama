@@ -1,4 +1,4 @@
-import { type TPoint } from "./types"
+import { type TPoint } from './types'
 
 /**
  * Generates a version 4 UUID (Universally Unique Identifier).

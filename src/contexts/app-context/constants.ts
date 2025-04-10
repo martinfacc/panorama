@@ -1,4 +1,4 @@
-import { EAspectRatio } from "./types"
+import { EAspectRatio } from './types'
 
 export const SPHERE_DISTANCE = 5
 
@@ -30,5 +30,5 @@ export const CAMERA_RESOLUTIONS = [
   { width: 1600, height: 1200, aspectRatio: EAspectRatio['4:3'] },
   { width: 1920, height: 1080, aspectRatio: EAspectRatio['16:9'] },
   { width: 2560, height: 1440, aspectRatio: EAspectRatio['16:9'] },
-  { width: 3840, height: 2160, aspectRatio: EAspectRatio['16:9'] },
+  { width: 3840, height: 2160, aspectRatio: EAspectRatio['16:9'] }
 ]

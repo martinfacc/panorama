@@ -5,7 +5,7 @@ export enum EAspectRatio {
   '16:9' = '16:9',
   '18:9' = '18:9',
   '19:9' = '19:9',
-  '4:3' = '4:3',
+  '4:3' = '4:3'
 }
 
 export type TSuperFile = File & {

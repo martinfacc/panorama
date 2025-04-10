@@ -8,7 +8,7 @@ type TSize = {
 export function useWindowSize(): TSize {
   const [size, setSize] = useState<TSize>({
     width: window.innerWidth,
-    height: window.innerHeight,
+    height: window.innerHeight
   })
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export function useWindowSize(): TSize {
       timeoutId = window.setTimeout(() => {
         setSize({
           width: window.innerWidth,
-          height: window.innerHeight,
+          height: window.innerHeight
         })
         timeoutId = null
       }, 300)

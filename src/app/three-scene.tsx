@@ -177,7 +177,6 @@ export default function ThreeScene() {
     <React.Fragment>
       {mountRef !== null && (
         <div
-          // @ts-ignore
           ref={mountRef}
           style={{ width: '100%', height: '100vh', overflow: 'hidden', position: 'relative' }}
         >
