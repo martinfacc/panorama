@@ -33,7 +33,7 @@ export type TPoint = {
 
 export type TSphere = {
   id: string
-  position: TPoint
+  point: TPoint
   color: string
 }
 

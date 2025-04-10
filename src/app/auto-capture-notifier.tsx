@@ -105,6 +105,8 @@ export default function AutoCaptureNotifier() {
                   file.alpha = prev.alpha
                   file.beta = prev.beta
                   file.gamma = prev.gamma
+                  file.theta = sphere.userData.theta
+                  file.phi = sphere.userData.phi
                   return prev
                 })
                 setPhotoFiles((prevFiles) => [...prevFiles, file])

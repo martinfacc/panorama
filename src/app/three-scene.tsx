@@ -7,16 +7,7 @@ import AutoCaptureNotifier from './auto-capture-notifier'
 import PhotosLeftIndicator from './photos-left-indicator'
 import CameraAngleIndicator from './camera-angle-indicator'
 import CameraResolutionSelector from './camera-resolution-selector'
-import {
-  generateVariableSpherePoints,
-  positionToHSL,
-  SPHERE_DISTANCE,
-  SPHERE_OPACITY,
-  SPHERE_RADIUS,
-  SPHERE_SEGMENTS,
-  useApp,
-  uuidv4
-} from '../contexts/app-context'
+import { SPHERE_OPACITY, SPHERE_RADIUS, SPHERE_SEGMENTS, useApp } from '../contexts/app-context'
 import CameraResolutionIndicator from './camera-resolution-indicator'
 
 export default function ThreeScene() {
@@ -25,6 +16,7 @@ export default function ThreeScene() {
     mountRef,
     rendererRef,
     permissionGranted,
+    spheres,
     setCurrentScene,
     setCurrentCamera,
     setCameraAngle
@@ -59,13 +51,12 @@ export default function ThreeScene() {
     rendererRef.current = renderer
 
     // ---------------------------
-    // CREATION AND ADDITION OF SPHERES TO THE SCENE
+    // ADDITION OF SPHERES TO THE SCENE
     // ---------------------------
-    const points = generateVariableSpherePoints(12, 1, 5, SPHERE_DISTANCE)
-    points.forEach((point) => {
+    spheres.forEach((s) => {
+      const { id, point, color } = s
       const { x, y, z } = point
       const geometry = new THREE.SphereGeometry(SPHERE_RADIUS, SPHERE_SEGMENTS, SPHERE_SEGMENTS)
-      const color = positionToHSL(x / SPHERE_DISTANCE, y / SPHERE_DISTANCE, z / SPHERE_DISTANCE)
       const material = new THREE.MeshBasicMaterial({
         color,
         transparent: true,
@@ -75,7 +66,9 @@ export default function ThreeScene() {
       sphere.position.set(x, y, z)
 
       sphere.userData = {
-        id: uuidv4()
+        id,
+        phi: point.phi,
+        theta: point.theta
       }
 
       scene.add(sphere)
