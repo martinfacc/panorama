@@ -13,5 +13,5 @@ app.use(cors())
 app.use(express.static('dist'))
 
 app.listen(APP_PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${APP_PORT}`)
+  console.log(`Server is running on port ${APP_PORT}`)
 })

@@ -28,7 +28,7 @@ export default function AutoCaptureNotifier() {
 
   useEffect(() => {
     if (!currentScene || !currentCamera || !rendererRef.current) {
-      console.warn('No hay escena o cámara disponibles.')
+      console.warn('Current scene or camera is not available.')
     }
 
     if (currentScene && currentCamera && rendererRef.current) {
@@ -82,7 +82,7 @@ export default function AutoCaptureNotifier() {
         if (sphere) {
           const videoTexture = currentScene.background as THREE.VideoTexture
           if (!(videoTexture instanceof THREE.VideoTexture) || !videoTexture.image) {
-            console.error('No se encontró la textura de video.')
+            console.error('No video texture found on the scene background.')
             return
           }
 
@@ -110,9 +110,6 @@ export default function AutoCaptureNotifier() {
                 setPhotoFiles((prevFiles) => [...prevFiles, file])
                 currentScene.remove(sphere)
                 playSnapSound()
-                console.log('Foto guardada en el estado:', file)
-              } else {
-                console.error('No se pudo capturar la foto.')
               }
             }, 'image/png')
           }

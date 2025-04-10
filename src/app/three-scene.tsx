@@ -36,7 +36,7 @@ export default function ThreeScene() {
     if (!permissionGranted) return
 
     // ---------------------------
-    // CREACIÓN DE LA ESCENA Y LA CÁMARA
+    // SCENE AND CAMERA CREATION
     // ---------------------------
     const scene = new THREE.Scene()
     setCurrentScene(scene)
@@ -50,7 +50,7 @@ export default function ThreeScene() {
     setCurrentCamera(camera)
 
     // ---------------------------
-    // CONFIGURACIÓN DEL RENDERER
+    // RENDERER CONFIGURATION
     // ---------------------------
     const renderer = new THREE.WebGLRenderer({ antialias: true })
     renderer.setPixelRatio(window.devicePixelRatio || 1)
@@ -59,7 +59,7 @@ export default function ThreeScene() {
     rendererRef.current = renderer
 
     // ---------------------------
-    // CREACIÓN Y AGREGADO DE ESFERAS A LA ESCENA
+    // CREATION AND ADDITION OF SPHERES TO THE SCENE
     // ---------------------------
     const points = generateVariableSpherePoints(12, 1, 5, SPHERE_DISTANCE)
     points.forEach((point) => {
@@ -82,7 +82,7 @@ export default function ThreeScene() {
     })
 
     // ---------------------------
-    // AGREGAR VIDEO DE FONDO DE LA CÁMARA
+    // ADD CAMERA BACKGROUND VIDEO
     // ---------------------------
     const video = document.createElement('video')
     video.autoplay = true
@@ -107,11 +107,11 @@ export default function ThreeScene() {
         scene.background = videoTexture
       })
       .catch((err) => {
-        console.error('Error al acceder a la cámara:', err)
+        console.error('Error accessing camera: ', err)
       })
 
     // ---------------------------
-    // CONFIGURAR LA ORIENTACIÓN DEL DISPOSITIVO
+    // CONFIGURE DEVICE ORIENTATION
     // ---------------------------
     let alpha = 0
     let beta = 0
@@ -143,7 +143,7 @@ export default function ThreeScene() {
     window.addEventListener('deviceorientation', handleOrientation, true)
 
     // ---------------------------
-    // LOOP DE ANIMACIÓN
+    // ANIMATION LOOP
     // ---------------------------
     const animate = () => {
       requestAnimationFrame(animate)
@@ -152,7 +152,7 @@ export default function ThreeScene() {
     animate()
 
     // ---------------------------
-    // GESTIÓN DEL REDIMENSIONAMIENTO DE LA VENTANA
+    // HANDLE WINDOW RESIZE
     // ---------------------------
     const onWindowResize = () => {
       if (!mountNode) return
