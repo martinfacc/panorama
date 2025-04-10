@@ -80,6 +80,7 @@ export function generateVariableSpherePoints(
   // Iterate over each latitude, from 0 (north pole) to π (south pole)
   for (let i = 0; i < circlesCount; i += 1) {
     const theta = (Math.PI * i) / (circlesCount - 1)
+    const thetaDeg = (theta * 180) / Math.PI
     const y = sphereRadius * Math.cos(theta)
     // The radius of the circle in the XZ plane:
     const circleRadius = sphereRadius * Math.sin(theta)
@@ -94,14 +95,15 @@ export function generateVariableSpherePoints(
 
     // If the radius is zero (pole), add a single point
     if (circleRadius === 0) {
-      points.push({ x: 0, y, z: 0, theta, phi: 0 })
+      points.push({ x: 0, y, z: 0, theta: thetaDeg, phi: 0 })
     } else {
       // Generate uniformly distributed points along the circle
       for (let j = 0; j < pointsForCircle; j += 1) {
         const phi = (2 * Math.PI * j) / pointsForCircle
+        const phiDeg = (phi * 180) / Math.PI
         const x = circleRadius * Math.cos(phi)
         const z = circleRadius * Math.sin(phi)
-        points.push({ x, y, z, theta, phi })
+        points.push({ x, y, z, theta: thetaDeg, phi: phiDeg })
       }
     }
   }
