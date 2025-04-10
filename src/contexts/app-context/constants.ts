@@ -6,7 +6,7 @@ export const SPHERE_RADIUS = 0.3
 
 export const SPHERE_SEGMENTS = 16
 
-export const SPHERE_ECUATORIAL_COUNT = 16
+export const SPHERE_ECUATORIAL_COUNT = 24
 
 export const SPHERE_POLAR_COUNT = 1
 
