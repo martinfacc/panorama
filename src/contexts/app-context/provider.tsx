@@ -20,7 +20,7 @@ const POINTS = generateVariableSpherePoints(
 
 const SPHERES = POINTS.map((point: TPoint) => ({
   id: uuidv4(),
-  position: point,
+  point,
   color: positionToHSL(point.x, point.y, point.z)
 }))
 
