@@ -9,7 +9,7 @@
     "lint": "eslint --fix .",
     "preview": "vite preview",
     "prettier": "prettier --write .",
-    "precommit": "yarn lint && yarn prettier"
+    "precommit": "yarn lint && yarn prettier && yarn build"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
