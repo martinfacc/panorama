@@ -1,4 +1,5 @@
-import { EAspectRatio } from './types'
+import { EAspectRatio, ESpherePointPreset, type TPoint } from './types'
+import { generateDefaultSpherePoints, generateVerticalSegmentsSpherePoints } from './utils'
 
 export const SPHERE_DISTANCE = 5
 
@@ -32,3 +33,25 @@ export const CAMERA_RESOLUTIONS = [
   { width: 2560, height: 1440, aspectRatio: EAspectRatio['16:9'] },
   { width: 3840, height: 2160, aspectRatio: EAspectRatio['16:9'] }
 ]
+
+export const SPHERE_POINT_PRESETS: Record<ESpherePointPreset, TPoint[]> = {
+  [ESpherePointPreset.DEFAULT]: generateDefaultSpherePoints(
+    SPHERE_ECUATORIAL_COUNT,
+    SPHERE_POLAR_COUNT,
+    SPHERE_CIRCLE_COUNT,
+    SPHERE_DISTANCE
+  ),
+  [ESpherePointPreset.CUBE]: [
+    { x: 0, y: SPHERE_DISTANCE, z: 0, theta: 90, phi: 0 },
+    { x: 0, y: -SPHERE_DISTANCE, z: 0, theta: 270, phi: 0 },
+    { x: SPHERE_DISTANCE, y: 0, z: 0, theta: 180, phi: 0 },
+    { x: -SPHERE_DISTANCE, y: 0, z: 0, theta: 0, phi: 0 },
+    { x: 0, y: 0, z: SPHERE_DISTANCE, theta: 90, phi: 90 },
+    { x: 0, y: 0, z: -SPHERE_DISTANCE, theta: 90, phi: 270 }
+  ],
+  [ESpherePointPreset.VERTICAL_SEGMENTS]: generateVerticalSegmentsSpherePoints(
+    6,
+    16,
+    SPHERE_DISTANCE
+  )
+}

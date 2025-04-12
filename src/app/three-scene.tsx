@@ -7,8 +7,9 @@ import AutoCaptureNotifier from './auto-capture-notifier'
 import PhotosLeftIndicator from './photos-left-indicator'
 import CameraAngleIndicator from './camera-angle-indicator'
 import CameraResolutionSelector from './camera-resolution-selector'
-import { SPHERE_OPACITY, SPHERE_RADIUS, SPHERE_SEGMENTS, useApp } from '../contexts/app-context'
 import CameraResolutionIndicator from './camera-resolution-indicator'
+import SpherePointPresetSelector from './sphere-point-preset-selector'
+import { SPHERE_OPACITY, SPHERE_RADIUS, SPHERE_SEGMENTS, useApp } from '../contexts/app-context'
 
 export default function ThreeScene() {
   const {
@@ -173,6 +174,7 @@ export default function ThreeScene() {
           ref={mountRef}
           style={{ width: '100%', height: '100vh', overflow: 'hidden', position: 'relative' }}
         >
+          <SpherePointPresetSelector />
           <CameraResolutionSelector />
           <CameraResolutionIndicator />
           <CameraAngleIndicator />

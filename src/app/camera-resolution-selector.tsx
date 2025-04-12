@@ -17,7 +17,7 @@ export default function CameraResolutionSelector() {
       }}
     >
       <FormControl size="small" sx={{ width: 200 }}>
-        <InputLabel id="camera-resolution-label">Resolución de cámara</InputLabel>
+        <InputLabel id="camera-resolution-label">Camera Resolution</InputLabel>
         <Select
           labelId="camera-resolution-label"
           value={cameraResolution}

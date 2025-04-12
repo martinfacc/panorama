@@ -8,6 +8,12 @@ export enum EAspectRatio {
   '4:3' = '4:3'
 }
 
+export enum ESpherePointPreset {
+  DEFAULT = 'Default',
+  CUBE = 'Cube',
+  VERTICAL_SEGMENTS = 'Vertical Segments'
+}
+
 export type TSuperFile = File & {
   id: string
   alpha: number
@@ -69,4 +75,6 @@ export type TAppContext = {
   setCameraResolution: React.Dispatch<React.SetStateAction<TCameraResolution>>
   spheres: TSphere[]
   setSpheres: React.Dispatch<React.SetStateAction<TSphere[]>>
+  spherePointPreset: ESpherePointPreset
+  setSpherePointPreset: React.Dispatch<React.SetStateAction<ESpherePointPreset>>
 }

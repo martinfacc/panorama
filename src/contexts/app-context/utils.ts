@@ -69,43 +69,113 @@ export function positionToHSL(x: number, y: number, z: number): string {
  * @param sphereRadius - Radius of the sphere
  * @returns An array of 3D points representing the sphere's surface, each with spherical coordinates (theta, phi).
  */
-export function generateVariableSpherePoints(
+export function generateDefaultSpherePoints(
   maxPoints: number,
   minPoints: number,
   circlesCount: number,
   sphereRadius: number
-): TPoint[] {
+) {
   const points: TPoint[] = []
 
-  // Iterate over each latitude, from 0 (north pole) to π (south pole)
+  const initalTheta = Math.PI / 2
+  const deltaTheta = Math.PI / (circlesCount - 1)
+
+  let theta = initalTheta
+
   for (let i = 0; i < circlesCount; i += 1) {
-    const theta = (Math.PI * i) / (circlesCount - 1)
-    const thetaDeg = (theta * 180) / Math.PI
-    const y = sphereRadius * Math.cos(theta)
-    // The radius of the circle in the XZ plane:
-    const circleRadius = sphereRadius * Math.sin(theta)
+    const rx = sphereRadius * Math.cos(theta) // Radius of the circle at this latitude
+    const ry = sphereRadius * Math.sin(theta) // Height at this latitude
 
-    // Calculate the number of points for this circle.
-    // Linearly interpolated: when sin(theta)=1 (e.g., equator) use maxPoints,
-    // and when sin(theta)=0 (poles) use minPoints.
-    const pointsForCircle =
-      circleRadius === 0
-        ? 1 // Always at least one point at the poles
-        : Math.max(1, Math.round(minPoints + (maxPoints - minPoints) * Math.sin(theta)))
+    // Calculate the number of points on this circle, varying from minPoints to maxPoints
+    const pointsCount = Math.round(
+      minPoints + ((maxPoints - minPoints) * Math.abs(rx)) / sphereRadius
+    )
 
-    // If the radius is zero (pole), add a single point
-    if (circleRadius === 0) {
-      points.push({ x: 0, y, z: 0, theta: thetaDeg, phi: 0 })
-    } else {
-      // Generate uniformly distributed points along the circle
-      for (let j = 0; j < pointsForCircle; j += 1) {
-        const phi = (2 * Math.PI * j) / pointsForCircle
-        const phiDeg = (phi * 180) / Math.PI
-        const x = circleRadius * Math.cos(phi)
-        const z = circleRadius * Math.sin(phi)
-        points.push({ x, y, z, theta: thetaDeg, phi: phiDeg })
-      }
+    const deltaPhi = (2 * Math.PI) / pointsCount // Angle between points on the circle
+    // Iterate over each point on the circle
+    for (let j = 0; j <= pointsCount; j += 1) {
+      const phi = j * deltaPhi // Longitude angle
+      let x = rx * Math.cos(phi) // X coordinate
+      let y = ry // Y coordinate (height)
+      let z = rx * Math.sin(phi) // Z coordinate
+
+      let degTheta = theta * (180 / Math.PI)
+      let degPhi = phi * (180 / Math.PI)
+
+      if (degTheta === 360) degTheta = 0 // Normalize theta to 0-360 range
+      if (degPhi === 360) degPhi = 0 // Normalize phi to 0-360 range
+
+      degTheta = Math.round(degTheta * 100) / 100
+      degPhi = Math.round(degPhi * 100) / 100
+
+      x = Math.round(x * 100) / 100
+      y = Math.round(y * 100) / 100
+      z = Math.round(z * 100) / 100
+
+      // Add the point to the array
+      points.push({ x, y, z, theta: degTheta, phi: degPhi })
     }
+
+    theta += deltaTheta
+  }
+  return points
+}
+
+/**
+ * Generates 3D points to form a sphere using vertical segments (meridians).
+ * The sphere is built by stacking horizontal circles (latitude slices) between the poles,
+ * each formed by evenly spaced points along its perimeter.
+ *
+ * @param pointCount - Number of horizontal circles (excluding the poles)
+ * @param segmentCount - Number of points on each circle (i.e., per vertical segment or meridian)
+ * @param sphereRadius - Radius of the sphere
+ * @returns An array of 3D points representing the sphere's surface, including the poles,
+ *          each point with spherical coordinates (theta, phi).
+ */
+export function generateVerticalSegmentsSpherePoints(
+  pointCount: number,
+  segmentCount: number,
+  sphereRadius: number
+) {
+  const points: TPoint[] = [
+    { x: 0, y: sphereRadius, z: 0, theta: 90, phi: 0 },
+    { x: 0, y: -sphereRadius, z: 0, theta: 270, phi: 0 }
+  ]
+
+  const deltaTheta = Math.PI / (pointCount + 1)
+
+  let theta = Math.PI / 2 + deltaTheta
+
+  for (let i = 0; i < pointCount; i += 1) {
+    theta = Math.PI / 2 + deltaTheta * (i + 1)
+    const rx = sphereRadius * Math.cos(theta) // Radius of the circle at this latitude
+    const ry = sphereRadius * Math.sin(theta) // Height at this latitude
+
+    const deltaPhi = (2 * Math.PI) / segmentCount // Angle between points on the circle
+    // Iterate over each point on the circle
+    for (let j = 0; j <= segmentCount; j += 1) {
+      const phi = j * deltaPhi // Longitude angle
+      let x = rx * Math.cos(phi) // X coordinate
+      let y = ry // Y coordinate (height)
+      let z = rx * Math.sin(phi) // Z coordinate
+
+      let degTheta = theta * (180 / Math.PI)
+      let degPhi = phi * (180 / Math.PI)
+
+      if (degTheta === 360) degTheta = 0 // Normalize theta to 0-360 range
+      if (degPhi === 360) degPhi = 0 // Normalize phi to 0-360 range
+
+      degTheta = Math.round(degTheta * 100) / 100
+      degPhi = Math.round(degPhi * 100) / 100
+
+      x = Math.round(x * 100) / 100
+      y = Math.round(y * 100) / 100
+      z = Math.round(z * 100) / 100
+
+      // Add the point to the array
+      points.push({ x, y, z, theta: degTheta, phi: degPhi })
+    }
+    console.log({ i, ry })
   }
   return points
 }

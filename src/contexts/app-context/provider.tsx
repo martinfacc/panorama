@@ -1,28 +1,9 @@
-import { useRef, useState, ReactNode, useMemo } from 'react'
+import { useRef, useState, ReactNode, useMemo, useEffect } from 'react'
 import * as THREE from 'three'
 import { AppContext } from './context'
-import { TCameraResolution, TPoint, TSphere, type TSuperFile } from './types'
-import {
-  CAMERA_RESOLUTIONS,
-  SPHERE_CIRCLE_COUNT,
-  SPHERE_DISTANCE,
-  SPHERE_ECUATORIAL_COUNT,
-  SPHERE_POLAR_COUNT
-} from './constants'
-import { generateVariableSpherePoints, positionToHSL, uuidv4 } from './utils'
-
-const POINTS = generateVariableSpherePoints(
-  SPHERE_ECUATORIAL_COUNT,
-  SPHERE_POLAR_COUNT,
-  SPHERE_CIRCLE_COUNT,
-  SPHERE_DISTANCE
-)
-
-const SPHERES = POINTS.map((point: TPoint) => ({
-  id: uuidv4(),
-  point,
-  color: positionToHSL(point.x, point.y, point.z)
-}))
+import { ESpherePointPreset, type TCameraResolution, type TSphere, type TSuperFile } from './types'
+import { CAMERA_RESOLUTIONS, SPHERE_POINT_PRESETS } from './constants'
+import { positionToHSL, uuidv4 } from './utils'
 
 export const AppProvider = (props: { children: ReactNode }) => {
   const { children } = props
@@ -39,7 +20,10 @@ export const AppProvider = (props: { children: ReactNode }) => {
     gamma: 0
   })
   const [cameraResolution, setCameraResolution] = useState<TCameraResolution>(CAMERA_RESOLUTIONS[2])
-  const [spheres, setSpheres] = useState<TSphere[]>(SPHERES)
+  const [spheres, setSpheres] = useState<TSphere[]>([])
+  const [spherePointPreset, setSpherePointPreset] = useState<ESpherePointPreset>(
+    ESpherePointPreset.DEFAULT
+  )
 
   const values = useMemo(
     () => ({
@@ -53,7 +37,7 @@ export const AppProvider = (props: { children: ReactNode }) => {
       setCurrentCamera,
       photoFiles,
       setPhotoFiles,
-      photosLeft: POINTS.length - photoFiles.length,
+      photosLeft: spheres.length - photoFiles.length,
       overSphere,
       setOverSphere,
       cameraAngle,
@@ -61,7 +45,9 @@ export const AppProvider = (props: { children: ReactNode }) => {
       cameraResolution,
       setCameraResolution,
       spheres,
-      setSpheres
+      setSpheres,
+      spherePointPreset,
+      setSpherePointPreset
     }),
     [
       mountRef,
@@ -73,9 +59,21 @@ export const AppProvider = (props: { children: ReactNode }) => {
       overSphere,
       cameraAngle,
       cameraResolution,
-      spheres
+      spheres,
+      spherePointPreset
     ]
   )
+
+  useEffect(() => {
+    const points = SPHERE_POINT_PRESETS[spherePointPreset]
+    setSpheres(
+      points.map((point) => ({
+        id: uuidv4(),
+        point,
+        color: positionToHSL(point.x, point.y, point.z)
+      }))
+    )
+  }, [spherePointPreset])
 
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>
 }
